@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رتبه‌بندی تیم‌های FC 25</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for a professional, light UI with new color scheme */
+        body {
+            font-family: 'Vazirmatn', 'Inter', sans-serif; /* Farsi font first, then Inter for numbers/latin */
+            /* Deeper, more sophisticated background gradient with subtle animation */
+            background:
+                radial-gradient(circle at 15% 25%, rgba(100, 116, 139, 0.15) 0%, transparent 50%), /* Subtle grey-blue radial */
+                radial-gradient(circle at 85% 75%, rgba(129, 140, 248, 0.15) 0%, transparent 50%), /* Subtle indigo radial */
+                linear-gradient(135deg, #1a2b4a, #5e3b8a); /* Main deep blue to purple gradient */
+            background-size: 200% 200%;
+            animation: backgroundPan 25s ease infinite alternate; /* Slower animation for subtlety */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        @keyframes backgroundPan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* Card container styling */
+        .card-container {
+            background-color: #ffffff;
+            border-radius: 1.75rem; /* Even more rounded */
+            /* Enhanced multi-layered shadow for deeper depth */
+            box-shadow:
+                0 15px 25px -5px rgba(0, 0, 0, 0.08), /* Inner subtle shadow */
+                0 35px 70px -15px rgba(0, 0, 0, 0.2), /* Main deep shadow */
+                0 8px 12px -4px rgba(0, 0, 0, 0.08); /* Outer subtle shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0; /* Subtle outer border */
+        }
+
+        .card-container:hover {
+            transform: translateY(-7px); /* More pronounced lift on hover */
+            box-shadow:
+                0 18px 30px -6px rgba(0, 0, 0, 0.12),
+                0 40px 80px -20px rgba(0, 0, 0, 0.25),
+                0 10px 15px -5px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Styling for individual draggable team items */
+        .team-item {
+            cursor: grab;
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            position: relative;
+            z-index: 10;
+            background-color: #f8fafc; /* Very light background for items */
+            border-radius: 1rem; /* More rounded corners for each item */
+            margin-bottom: 0.75rem; /* Space between items */
+            border: 1px solid #e2e8f0; /* Light border for definition */
+            padding: 0.85rem 1.25rem; /* Slightly more padding */
+        }
+
+        .team-item:last-child {
+            margin-bottom: 0; /* No margin for the last item */
+        }
+
+        .team-item:hover {
+            background-color: #f0f4f8; /* Slightly darker on hover */
+            transform: translateY(-3px); /* More pronounced lift effect */
+            box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.1), 0 3px 8px -3px rgba(0, 0, 0, 0.06);
+        }
+
+        .team-item:active {
+            cursor: grabbing;
+        }
+
+        /* Visual feedback when dragging */
+        .dragging {
+            opacity: 0.7;
+            transform: scale(1.01) translateY(-5px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2), 0 5px 10px -5px rgba(0, 0, 0, 0.1);
+            z-index: 20;
+            background-color: #e0f2fe; /* Light blue when dragging */
+        }
+
+        /* Visual indication for drop target */
+        .team-item.drag-over {
+            background-color: #bfdbfe; /* More pronounced blue overlay */
+            border: 2px solid #60a5fa; /* Stronger blue border */
+            transform: scale(1.005);
+        }
+
+        /* Spinner animation for button */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom scrollbar for the team list */
+        #team-list {
+            max-height: 500px; /* Limit height to enable scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding-left: 8px; /* Space for scrollbar in RTL */
+            padding-right: 0;
+            padding-top: 0.5rem; /* Padding inside the scrollable area */
+            padding-bottom: 0.5rem;
+        }
+
+        #team-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #team-list::-webkit-scrollbar-track {
+            background: #f1f5f9; /* Light track */
+            border-radius: 10px;
+        }
+
+        #team-list::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* Light gray thumb */
+            border-radius: 10px;
+        }
+
+        #team-list::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* Darker gray on hover */
+        }
+
+        /* Stat item styling */
+        .stat-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 600; /* font-semibold */
+            color: #475569; /* slate-700 */
+            font-family: 'Inter', sans-serif; /* Keep numbers/stats in Inter */
+            flex-shrink: 0; /* Prevent stat from shrinking */
+            background-color: #e0f2fe; /* Light blue badge background */
+            padding: 0.25rem 0.6rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid #bfdbfe;
+        }
+        .stat-icon {
+            width: 1rem; /* w-4 */
+            height: 1rem; /* h-4 */
+            margin-left: 0.25rem; /* ml-1 for RTL */
+            margin-right: 0;
+            color: #2563eb; /* Blue color for icon */
+        }
+        /* Adjust for RTL layout */
+        .rank-number {
+            margin-left: 0.75rem; /* mr-3 equivalent in RTL */
+            margin-right: 0;
+            flex-shrink: 0; /* Prevent rank from shrinking */
+            color: #2563eb; /* Blue color for rank */
+            font-family: 'Inter', sans-serif; /* Ensure Inter for numbers */
+        }
+        /* Flex direction adjustments for RTL */
+        .team-item > div:first-child { /* This targets the wrapper around rank, logo, name, and stat */
+            flex-direction: row-reverse; /* Reverse order for rank and team name/stat block */
+        }
+        .team-name-and-stat-wrapper { /* Wrapper around logo, name and OVR stat */
+            display: flex;
+            flex-direction: row-reverse; /* Default to row-reverse for RTL */
+            align-items: center;
+            flex-grow: 1; /* Allow it to grow */
+            justify-content: space-between; /* Space between name and stat */
+            min-width: 0; /* Allow content to shrink if needed */
+        }
+        @media (max-width: 639px) { /* Styles for mobile (below sm breakpoint) */
+            .team-name-and-stat-wrapper {
+                flex-direction: column-reverse; /* Stack name and stats vertically on mobile */
+                align-items: flex-end; /* Align to the right in column mode */
+                flex-wrap: wrap; /* Allow wrapping on mobile */
+            }
+            .team-name-span {
+                margin-bottom: 0.25rem; /* Small margin between name and stacked stat */
+            }
+            .stat-item {
+                margin-top: 0.25rem; /* Add a bit space above stat when stacked */
+            }
+            .team-logo {
+                margin-left: 0.5rem; /* Adjust logo margin for mobile RTL */
+                margin-right: 0;
+            }
+        }
+        @media (min-width: 640px) { /* sm breakpoint */
+            .team-name-and-stat-wrapper {
+                flex-direction: row-reverse; /* Adjust for desktop row layout */
+                align-items: center; /* Re-center for row mode */
+                flex-wrap: nowrap; /* Prevent stats from wrapping on larger screens if possible */
+            }
+        }
+        .team-item .ml-4 {
+            margin-right: 1rem; /* ml-4 equivalent in RTL */
+            margin-left: 0;
+        }
+        .team-item .mr-3 {
+            margin-left: 0.75rem; /* mr-3 equivalent in RTL */
+            margin-right: 0;
+        }
+        /* Specific adjustment for the drag handle icon to be on the right in RTL */
+        .team-item > svg {
+            margin-right: 0; /* Clear default margin */
+            margin-left: 1rem; /* Add margin to the left */
+            align-self: center; /* Ensure vertical alignment */
+            flex-shrink: 0; /* Prevent drag icon from shrinking */
+        }
+        /* Ensure team name stays on one line and truncates */
+        .team-name-span {
+            white-space: nowrap; /* Keep text on one line */
+            overflow: hidden; /* Hide overflowing content */
+            text-overflow: ellipsis; /* Show ellipsis for truncated text */
+            text-align: right; /* Align text to the right in RTL */
+            flex-shrink: 1; /* Allow it to shrink */
+            min-width: 0; /* Important for overflow: hidden to work with flex-grow */
+            margin-left: 0.75rem; /* Add some space between name and stat */
+        }
+        .team-logo {
+            width: 2.5rem; /* Slightly larger logo */
+            height: 2.5rem;
+            border-radius: 0.5rem; /* More rounded corners for logo */
+            flex-shrink: 0; /* Prevent logo from shrinking */
+            margin-right: 0.75rem; /* mr-3 equivalent in RTL */
+            margin-left: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow on logo */
+            object-fit: cover; /* Ensure logo content fits */
+            border: 1px solid #bfdbfe; /* Subtle border for logo */
+        }
+        /* Button styling */
+        #submitButton {
+            background: linear-gradient(90deg, #3b82f6, #6366f1); /* More vibrant blue-indigo gradient */
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.15);
+            transition: all 0.3s ease;
+        }
+        #submitButton:hover {
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
+            box-shadow: 0 12px 25px -6px rgba(59, 130, 246, 0.4), 0 6px 10px -3px rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        #submitButton:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 10px -3px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container p-6 sm:p-8 md:p-10 rounded-2xl w-full max-w-xl mx-auto">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-gray-900 mb-4">
+            <span class="text-blue-600">FC 25</span> رتبه‌بندی تیم‌ها
+        </h1>
+        <p class="text-md sm:text-lg text-center text-gray-600 mb-2">
+            تیم‌ها را بکشید و رها کنید تا لیست نهایی ترجیحات خود را ایجاد کنید.
+        </p>
+        <p class="text-sm text-center text-gray-500 mb-8">
+            این برای مسابقات FC25 در تورکو است.
+        </p>
+
+        <div class="mb-6">
+            <label for="userName" class="block text-gray-700 text-lg font-medium mb-2">
+                نام شما
+            </label>
+            <input type="text" id="userName" placeholder="نام خود را وارد کنید"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800 text-lg">
+        </div>
+
+        <ul id="team-list" class="bg-white border border-gray-200 rounded-xl shadow-inner mb-8 p-3">
+            </ul>
+
+        <button onclick="submitOrder()" id="submitButton" class="w-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-300 text-xl">
+            <span id="button-text">ارسال رتبه‌بندی</span>
+            <div id="button-spinner" class="spinner ml-4 hidden"></div>
+        </button>
+
+        <div id="submission-status" class="mt-6 text-center">
+            <p id="loading-message" class="text-blue-600 hidden text-lg font-semibold">در حال ارسال ترجیحات شما...</p>
+            <p id="submission-message" class="text-green-600 hidden text-lg font-semibold">رتبه‌بندی شما با موفقیت ارسال شد!</p>
+            <p id="error-message" class="text-red-600 hidden text-lg font-semibold">خطا در ارسال رتبه‌بندی. لطفا دوباره تلاش کنید.</p>
+        </div>
+    </div>
+
+    <script>
+        // Updated teams data - Based on recent performance and general consensus of top teams
+        const teamsData = [
+            { name: "Manchester City", ovr: 88, att: 89, mid: 86, def: 88, gameplay: "Possession-based, high tempo attack", logoText: "MCI", logoColor: "6CABDD", initialTextColor: "FFFFFF" },
+            { name: "Real Madrid", ovr: 87, att: 88, mid: 87, def: 86, gameplay: "Short passing, positional play", logoText: "RMA", logoColor: "00529F", initialTextColor: "FFFFFF" },
+            { name: "Bayern Munich", ovr: 86, att: 90, mid: 87, def: 86, gameplay: "Aggressive press, wing play", logoText: "BAY", logoColor: "DC052D", initialTextColor: "FFFFFF" },
+            { name: "Arsenal", ovr: 85, att: 83, mid: 80, def: 76, gameplay: "Controlled build-up, balanced defense", logoText: "ARS", logoColor: "EF0107", initialTextColor: "FFFFFF" },
+            { name: "Liverpool", ovr: 85, att: 84, mid: 79, def: 80, gameplay: "Gegenpressing, fast transitions", logoText: "LIV", logoColor: "C8102E", initialTextColor: "FFFFFF" },
+            { name: "Paris Saint-Germain", ovr: 84, att: 86, mid: 87, def: 77, gameplay: "Star player isolation, flair", logoText: "PSG", logoColor: "004170", initialTextColor: "FFFFFF" },
+            { name: "FC Barcelona", ovr: 84, att: 89, mid: 86, def: 82, gameplay: "Tiki-taka, ball control", logoText: "BAR", logoColor: "A50044", initialTextColor: "FFFFFF" },
+            { name: "Inter Milan", ovr: 83, att: 83, mid: 80, def: 75, gameplay: "Structured defense, direct attack", logoText: "INT", logoColor: "000000", initialTextColor: "FFFFFF" }, // Explicitly white text for black background
+            { name: "Napoli", ovr: 83, att: 85, mid: 82, def: 80, gameplay: "Fluid attacking football", logoText: "NAP", logoColor: "0072C6", initialTextColor: "FFFFFF" },
+            { name: "Manchester United", ovr: 83, att: 84, mid: 85, def: 83, gameplay: "Counter attacking, high press", logoText: "MUN", logoColor: "DA291C", initialTextColor: "FFFFFF" },
+            { name: "Atlético Madrid", ovr: 82, att: 79, mid: 86, def: 82, gameplay: "Compact defense, breakaways", logoText: "ATM", logoColor: "CB3524", initialTextColor: "FFFFFF" },
+            { name: "Chelsea", ovr: 82, att: 83, mid: 83, def: 85, gameplay: "Wing backs attack, possession", logoText: "CHE", logoColor: "034694", initialTextColor: "FFFFFF" },
+            { name: "Tottenham Hotspur", ovr: 81, att: 82, mid: 80, def: 79, gameplay: "High intensity, vertical play", logoText: "TOT", logoColor: "132257", initialTextColor: "FFFFFF" },
+            { name: "AS Roma", ovr: 81, att: 87, mid: 85, def: 75, gameplay: "Wide play, aerial strength", logoText: "ROM", logoColor: "860D2C", initialTextColor: "FFFFFF" },
+            { name: "Juventus", ovr: 80, att: 78, mid: 86, def: 80, gameplay: "Defensive solidity, set-pieces", logoText: "JUV", logoColor: "000000", initialTextColor: "FFFFFF" }, // Explicitly white text for black background
+            { name: "AC Milan", ovr: 80, att: 82, mid: 88, def: 77, gameplay: "Balanced attack and midfield, strong defense", logoText: "ACM", logoColor: "FB090B", initialTextColor: "FFFFFF" },
+            { name: "RB Leipzig", ovr: 80, att: 81, mid: 77, def: 85, gameplay: "Transition focused, aggressive pressing", logoText: "RBL", logoColor: "001E44", initialTextColor: "FFFFFF" },
+            { name: "Bayer Leverkusen", ovr: 79, att: 81, mid: 84, def: 80, gameplay: "Quick counters, tight marking", logoText: "B04", logoColor: "E32221", initialTextColor: "FFFFFF" },
+            { name: "Brighton & Hove Albion", ovr: 79, att: 78, mid: 80, def: 79, gameplay: "Possession-based, intricate passing", logoText: "BHA", logoColor: "0057B8", initialTextColor: "FFFFFF" },
+            { name: "Aston Villa", ovr: 79, att: 79, mid: 78, def: 80, gameplay: "Strong defense, quick transitions", logoText: "AVL", logoColor: "95BFE5", initialTextColor: "000000" },
+            { name: "Newcastle United", ovr: 78, att: 80, mid: 78, def: 79, gameplay: "High press, direct play", logoText: "NEW", logoColor: "000000", initialTextColor: "FFFFFF" }, // Explicitly white text for black background
+            { name: "West Ham United", ovr: 78, att: 77, mid: 79, def: 78, gameplay: "Counter-attacking, set-piece threat", logoText: "WHU", logoColor: "7A263A", initialTextColor: "FFFFFF" },
+            { name: "Atalanta", ovr: 78, att: 78, mid: 79, def: 78, gameplay: "Controlled possession, strong midfield", logoText: "ATL", logoColor: "FFFFFF", initialTextColor: "000000" },
+            { name: "Real Betis", ovr: 77, att: 77, mid: 78, def: 77, gameplay: "Technical play, wide attacks", logoText: "RBB", logoColor: "00BB2D", initialTextColor: "FFFFFF" },
+            { name: "Villarreal CF", ovr: 77, att: 84, mid: 86, def: 78, gameplay: "Fluid midfield, high lines", logoText: "VIL", logoColor: "F0E040", initialTextColor: "000000" }
+        ];
+
+        const teamList = document.getElementById('team-list');
+        let draggedItem = null;
+        let dragOverItem = null;
+
+        // Function to render teams into the list
+        function renderTeams() {
+            teamList.innerHTML = ''; // Clear existing list
+            teamsData.forEach((team, index) => {
+                const li = document.createElement('li');
+                li.draggable = true;
+                li.setAttribute('data-team', team.name);
+                li.classList.add(
+                    'team-item', 'flex', 'items-center', 'justify-between',
+                    'text-gray-800', 'text-lg', 'sm:text-xl', 'font-semibold'
+                );
+
+                li.innerHTML = `
+                    <div class="flex items-center flex-grow">
+                        <span class="rank-number w-8 text-center text-blue-600 font-bold text-xl ml-3"></span>
+                        <div class="team-name-and-stat-wrapper">
+                            <img src="https://placehold.co/40x40/${team.logoColor}/${team.initialTextColor}?text=${team.logoText}" alt="${team.name} logo" class="team-logo">
+                            <span class="team-name-span text-gray-800 text-lg sm:text-xl font-semibold">${team.name}</span>
+                            <span class="stat-item text-gray-700">
+                                <svg class="stat-icon text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                ${team.ovr} OVR
+                            </span>
+                        </div>
+                    </div>
+                    <svg class="w-6 h-6 text-gray-400 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                `;
+                teamList.appendChild(li);
+            });
+            updateRankNumbers();
+        }
+
+        // Initial render of teams when the script loads
+        renderTeams();
+
+        // Event listeners for drag and drop
+        teamList.addEventListener('dragstart', function(e) {
+            draggedItem = e.target.closest('.team-item');
+            if (!draggedItem) return;
+
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setDragImage(draggedItem, e.offsetX, e.offsetY);
+            e.dataTransfer.setData('text/plain', draggedItem.dataset.team);
+            
+            setTimeout(() => {
+                draggedItem.classList.add('dragging');
+            }, 0);
+        });
+
+        teamList.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            const targetItem = e.target.closest('.team-item');
+
+            if (targetItem && targetItem !== draggedItem) {
+                if (dragOverItem && dragOverItem !== targetItem) {
+                    dragOverItem.classList.remove('drag-over');
+                }
+                targetItem.classList.add('drag-over');
+                dragOverItem = targetItem;
+            } else if (dragOverItem) {
+                dragOverItem.classList.remove('drag-over');
+                dragOverItem = null;
+            }
+        });
+
+        teamList.addEventListener('dragleave', function(e) {
+            const targetItem = e.target.closest('.team-item');
+            if (targetItem) {
+                targetItem.classList.remove('drag-over');
+            }
+            if (!e.relatedTarget || !teamList.contains(e.relatedTarget)) {
+                if (dragOverItem) {
+                    dragOverItem.classList.remove('drag-over');
+                    dragOverItem = null;
+                }
+            }
+        });
+
+        teamList.addEventListener('drop', function(e) {
+            e.preventDefault();
+            const targetItem = e.target.closest('.team-item');
+
+            if (targetItem && targetItem !== draggedItem) {
+                const teamItems = Array.from(teamList.children);
+                const draggedIndex = teamItems.indexOf(draggedItem);
+                const targetIndex = teamItems.indexOf(targetItem);
+
+                const rect = targetItem.getBoundingClientRect();
+                const offsetY = e.clientY - rect.top;
+                const isAbove = offsetY < rect.height / 2;
+
+                if (draggedIndex < targetIndex) {
+                    if (isAbove) {
+                        teamList.insertBefore(draggedItem, targetItem);
+                    } else {
+                        teamList.insertBefore(draggedItem, targetItem.nextSibling);
+                    }
+                } else { // draggedIndex > targetIndex
+                    if (isAbove) {
+                        teamList.insertBefore(draggedItem, targetItem);
+                    } else {
+                        teamList.insertBefore(draggedItem, targetItem.nextSibling);
+                    }
+                }
+                
+                // --- FIX START: Reorder teamsData and re-render ---
+                const currentOrderNames = Array.from(teamList.children).map(li => li.getAttribute('data-team'));
+                const newOrderedTeamsData = currentOrderNames.map(name => teamsData.find(team => team.name === name));
+                teamsData.splice(0, teamsData.length, ...newOrderedTeamsData); // Update teamsData in place
+                renderTeams(); // Re-render the entire list to update ranks and ensure consistency
+                // --- FIX END ---
+            }
+            if (dragOverItem) {
+                dragOverItem.classList.remove('drag-over');
+            }
+            if (draggedItem) {
+                draggedItem.classList.remove('dragging');
+            }
+            draggedItem = null;
+            dragOverItem = null;
+        });
+
+        teamList.addEventListener('dragend', function(e) {
+            if (draggedItem) {
+                draggedItem.classList.remove('dragging');
+            }
+            if (dragOverItem) {
+                dragOverItem.classList.remove('drag-over');
+            }
+            draggedItem = null;
+            dragOverItem = null;
+        });
+
+
+        // Function to update rank numbers (now called by renderTeams)
+        function updateRankNumbers() {
+            Array.from(teamList.children).forEach((item, index) => {
+                const rankSpan = item.querySelector('.rank-number');
+                if (rankSpan) {
+                    rankSpan.textContent = `${index + 1}`; // Removed the dot
+                }
+            });
+        }
+
+        // Function to submit the sorted order
+        async function submitOrder() {
+            const userNameInput = document.getElementById('userName');
+            const userName = userNameInput.value.trim();
+
+            if (!userName) {
+                displayMessage('لطفاً نام خود را وارد کنید.', 'error');
+                userNameInput.focus();
+                return;
+            }
+
+            const submitButton = document.getElementById('submitButton');
+            const buttonText = document.getElementById('button-text');
+            const buttonSpinner = document.getElementById('button-spinner');
+            const loadingMessage = document.getElementById('loading-message');
+            const submissionMessage = document.getElementById('submission-message');
+            const errorMessage = document.getElementById('error-message');
+
+            submissionMessage.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            loadingMessage.classList.remove('hidden');
+            submitButton.disabled = true;
+            buttonText.textContent = 'در حال ارسال...';
+            buttonSpinner.classList.remove('hidden');
+
+            const orderedTeams = Array.from(teamList.children).map(li => li.getAttribute('data-team'));
+
+            // --- IMPORTANT: REPLACE THIS PLACEHOLDER ---
+            // Replace 'YOUR_APPS_SCRIPT_WEB_APP_URL' with the Web App URL of your Google Apps Script deployment.
+            // This is the URL you get after deploying your Apps Script (e.g., https://script.google.com/macros/s/AKfy.../exec).
+            const scriptURL = `https://script.google.com/macros/s/AKfycbxXvlmamnYWsVu5U5qaA3MTMLGKNLi9VyW6iWC4I-9_U3dhCCP4U1Ce3F7aFT-Jt1AzbA/exec`;
+            // ---------------------------------------------
+
+            const formData = new FormData();
+            formData.append('userName', userName);
+            formData.append('teams', JSON.stringify(orderedTeams));
+          	
+          	 // --- این خط را اضافه کنید ---
+        		console.log('Attempting to fetch with URL:', scriptURL, 'and formData:', Array.from(formData.entries()));
+       		 // -----------------------------
+	
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors' // Use no-cors for Google Apps Script to avoid CORS issues
+                });
+
+                // Since 'no-cors' gives an opaque response, we can't check response.ok or parse JSON.
+                // We'll just assume success for demonstration if no network error occurred.
+                loadingMessage.classList.add('hidden');
+                submissionMessage.classList.remove('hidden');
+                userNameInput.value = '';
+
+            } catch (error) {
+                console.error('Submission Error:', error);
+                loadingMessage.classList.add('hidden');
+                errorMessage.classList.remove('hidden');
+            } finally {
+                submitButton.disabled = false;
+                buttonText.textContent = 'ارسال رتبه‌بندی';
+                buttonSpinner.classList.add('hidden');
+            }
+        }
+
+        // Helper function to display messages
+        function displayMessage(message, type) {
+            const submissionMessage = document.getElementById('submission-message');
+            const errorMessage = document.getElementById('error-message'); // Corrected ID
+            const loadingMessage = document.getElementById('loading-message');
+
+            loadingMessage.classList.add('hidden');
+            submissionMessage.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+
+            if (type === 'success') {
+                submissionMessage.textContent = message;
+                submissionMessage.classList.remove('hidden');
+            } else if (type === 'error') {
+                errorMessage.textContent = message;
+                errorMessage.classList.remove('hidden');
+            }
+        }
+    </script>
+
+
+<script src="https://static.app/js/static.js" type="text/javascript"></script>
+</body>
+</html>
