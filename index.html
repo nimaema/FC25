@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>رتبه‌بندی تیم‌های FC 25</title>
-    <link href="https://fonts.com/css2?family=Inter:wght@300;400;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles for a professional, light UI with new color scheme */
@@ -260,10 +260,10 @@
             <span class="text-blue-600">FC 25</span> رتبه‌بندی تیم‌ها
         </h1>
         <p class="text-md sm:text-lg text-center text-gray-600 mb-2">
-            تیم‌ها را بکشید و رها کنید تا لیست نهایی خود را ایجاد کنید.
+            تیم‌ها را بکشید و رها کنید تا لیست نهایی ترجیحات خود را ایجاد کنید.
         </p>
         <p class="text-sm text-center text-gray-500 mb-8">
-            این برای مسابقات FC25 است.
+            این برای مسابقات FC25 در تورکو است.
         </p>
 
         <div class="mb-6">
@@ -290,32 +290,33 @@
     </div>
 
     <script>
-        // Updated teams data - Based on Top_25_Football_Clubs.csv
+        // Updated teams data - Based on Top 25 Football Clubs (Updated) PDF
         const teamsData = [
-            { name: "Real Madrid", ovr: 85, att: 88, mid: 85, def: 83, logoText: "RMA", logoColor: "00529F", initialTextColor: "FFFFFF" },
-            { name: "Manchester City", ovr: 85, att: 86, mid: 83, def: 79, logoText: "MCI", logoColor: "6CABDD", initialTextColor: "FFFFFF" },
-            { name: "FC Barcelona", ovr: 84, att: 85, mid: 85, def: 83, logoText: "BAR", logoColor: "A50044", initialTextColor: "FFFFFF" },
-            { name: "Inter", ovr: 84, att: 86, mid: 84, def: 83, logoText: "INT", logoColor: "000000", initialTextColor: "FFFFFF" },
-            { name: "FC Bayern München", ovr: 84, att: 90, mid: 84, def: 82, logoText: "BAY", logoColor: "DC052D", initialTextColor: "FFFFFF" },
-            { name: "Liverpool", ovr: 84, att: 83, mid: 84, def: 85, logoText: "LIV", logoColor: "C8102E", initialTextColor: "FFFFFF" },
-            { name: "Paris Saint-Germain", ovr: 83, att: 83, mid: 83, def: 84, logoText: "PSG", logoColor: "004170", initialTextColor: "FFFFFF" },
-            { name: "Bayer 04 Leverkusen", ovr: 83, att: 83, mid: 84, def: 83, logoText: "B04", logoColor: "E32221", initialTextColor: "FFFFFF" },
-            { name: "Arsenal", ovr: 83, att: 83, mid: 85, def: 81, logoText: "ARS", logoColor: "EF0107", initialTextColor: "FFFFFF" },
-            { name: "Atlético Madrid", ovr: 82, att: 84, mid: 80, def: 81, logoText: "ATM", logoColor: "CB3524", initialTextColor: "FFFFFF" },
-            { name: "AC Milan", ovr: 81, att: 81, mid: 79, def: 79, logoText: "ACM", logoColor: "FB090B", initialTextColor: "FFFFFF" },
-            { name: "Borussia Dortmund", ovr: 81, att: 82, mid: 79, def: 81, logoText: "BVB", logoColor: "FDE100", initialTextColor: "000000" },
-            { name: "Tottenham Hotspur", ovr: 81, att: 80, mid: 83, def: 81, logoText: "TOT", logoColor: "132257", initialTextColor: "FFFFFF" },
-            { name: "Newcastle United", ovr: 81, att: 81, mid: 80, def: 80, logoText: "NEW", logoColor: "000000", initialTextColor: "FFFFFF" },
-            { name: "Aston Villa", ovr: 81, att: 84, mid: 80, def: 80, logoText: "AVL", logoColor: "95BFE5", initialTextColor: "000000" },
-            { name: "RB Leipzig", ovr: 80, att: 82, mid: 79, def: 80, logoText: "RBL", logoColor: "001E44", initialTextColor: "FFFFFF" },
-            { name: "Athletic Club", ovr: 80, att: 75, mid: 80, def: 80, logoText: "ATH", logoColor: "BB0000", initialTextColor: "FFFFFF" },
-            { name: "Fenerbahçe SK", ovr: 80, att: 81, mid: 79, def: 79, logoText: "FEN", logoColor: "004080", initialTextColor: "FFFFFF" },
-            { name: "Juventus", ovr: 80, att: 82, mid: 80, def: 78, logoText: "JUV", logoColor: "000000", initialTextColor: "FFFFFF" },
-            { name: "Manchester United", ovr: 80, att: 77, mid: 76, def: 80, logoText: "MUN", logoColor: "DA291C", initialTextColor: "FFFFFF" },
-            { name: "Atalanta", ovr: 79, att: 80, mid: 80, def: 78, logoText: "ATA", logoColor: "000080", initialTextColor: "FFFFFF" },
-            { name: "Lazio", ovr: 79, att: 80, mid: 79, def: 78, logoText: "LAZ", logoColor: "73C2FB", initialTextColor: "000000" },
-            { name: "Napoli", ovr: 79, att: 80, mid: 79, def: 80, logoText: "NAP", logoColor: "0072C6", initialTextColor: "FFFFFF" },
-            { name: "Roma", ovr: 79, att: 78, mid: 78, def: 80, logoText: "ROM", logoColor: "860D2C", initialTextColor: "FFFFFF" }
+            { "name": "Manchester City", "ovr": 85, "att": 84, "mid": 84, "def": 81, "logoText": "MCI", "logoColor": "6CABDD", "initialTextColor": "FFFFFF" },
+            { "name": "Real Madrid", "ovr": 85, "att": 88, "mid": 85, "def": 83, "logoText": "RMA", "logoColor": "00529F", "initialTextColor": "FFFFFF" },
+            { "name": "Liverpool", "ovr": 84, "att": 83, "mid": 84, "def": 85, "logoText": "LIV", "logoColor": "C8102E", "initialTextColor": "FFFFFF" },
+            { "name": "FC Bayern München", "ovr": 84, "att": 90, "mid": 84, "def": 82, "logoText": "BAY", "logoColor": "DC052D", "initialTextColor": "FFFFFF" },
+            { "name": "Inter", "ovr": 84, "att": 86, "mid": 84, "def": 83, "logoText": "INT", "logoColor": "000000", "initialTextColor": "FFFFFF" },
+            { "name": "FC Barcelona", "ovr": 84, "att": 84, "mid": 85, "def": 83, "logoText": "BAR", "logoColor": "A50044", "initialTextColor": "FFFFFF" },
+            { "name": "Arsenal", "ovr": 83, "att": 82, "mid": 86, "def": 81, "logoText": "ARS", "logoColor": "EF0107", "initialTextColor": "FFFFFF" },
+            { "name": "Bayer 04 Leverkusen", "ovr": 83, "att": 83, "mid": 84, "def": 83, "logoText": "B04", "logoColor": "E32221", "initialTextColor": "FFFFFF" },
+            { "name": "Paris Saint-Germain", "ovr": 83, "att": 83, "mid": 82, "def": 84, "logoText": "PSG", "logoColor": "004170", "initialTextColor": "FFFFFF" },
+            { "name": "Atlético Madrid", "ovr": 82, "att": 84, "mid": 80, "def": 81, "logoText": "ATM", "logoColor": "CB3524", "initialTextColor": "FFFFFF" },
+            { "name": "Aston Villa", "ovr": 81, "att": 82, "mid": 81, "def": 80, "logoText": "AVL", "logoColor": "95BFE5", "initialTextColor": "000000" },
+            { "name": "Newcastle United", "ovr": 81, "att": 81, "mid": 80, "def": 80, "logoText": "NEW", "logoColor": "000000", "initialTextColor": "FFFFFF" },
+            { "name": "Tottenham Hotspur", "ovr": 81, "att": 81, "mid": 82, "def": 81, "logoText": "TOT", "logoColor": "132257", "initialTextColor": "FFFFFF" },
+            { "name": "Borussia Dortmund", "ovr": 81, "att": 85, "mid": 79, "def": 81, "logoText": "BVB", "logoColor": "FDE100", "initialTextColor": "000000" },
+            { "name": "AC Milan", "ovr": 81, "att": 81, "mid": 79, "def": 79, "logoText": "ACM", "logoColor": "FB090B", "initialTextColor": "FFFFFF" },
+            { "name": "Chelsea", "ovr": 80, "att": 81, "mid": 82, "def": 80, "logoText": "CHE", "logoColor": "034694", "initialTextColor": "FFFFFF" },
+            { "name": "Manchester United", "ovr": 80, "att": 77, "mid": 78, "def": 80, "logoText": "MUN", "logoColor": "DA291C", "initialTextColor": "FFFFFF" },
+            { "name": "RB Leipzig", "ovr": 80, "att": 82, "mid": 79, "def": 77, "logoText": "RBL", "logoColor": "001E44", "initialTextColor": "FFFFFF" },
+            { "name": "Juventus", "ovr": 80, "att": 82, "mid": 79, "def": 78, "logoText": "JUV", "logoColor": "000000", "initialTextColor": "FFFFFF" },
+            { "name": "Fenerbahçe SK", "ovr": 80, "att": 81, "mid": 79, "def": 79, "logoText": "FEN", "logoColor": "004080", "initialTextColor": "FFFFFF" },
+            { "name": "Athletic Club", "ovr": 80, "att": 74, "mid": 81, "def": 79, "logoText": "ATH", "logoColor": "BB0000", "initialTextColor": "FFFFFF" },
+            { "name": "Atalanta", "ovr": 79, "att": 80, "mid": 80, "def": 78, "logoText": "ATA", "logoColor": "000080", "initialTextColor": "FFFFFF" },
+            { "name": "Lazio", "ovr": 79, "att": 80, "mid": 79, "def": 78, "logoText": "LAZ", "logoColor": "73C2FB", "initialTextColor": "000000" },
+            { "name": "Napoli", "ovr": 79, "att": 80, "mid": 79, "def": 80, "logoText": "NAP", "logoColor": "0072C6", "initialTextColor": "FFFFFF" },
+            { "name": "Roma", "ovr": 79, "att": 83, "mid": 78, "def": 79, "logoText": "ROM", "logoColor": "860D2C", "initialTextColor": "FFFFFF" }
         ];
 
         const teamList = document.getElementById('team-list');
@@ -428,12 +429,11 @@
                     }
                 }
                 
-                // --- FIX START: Reorder teamsData and re-render ---
+                // Reorder teamsData and re-render
                 const currentOrderNames = Array.from(teamList.children).map(li => li.getAttribute('data-team'));
                 const newOrderedTeamsData = currentOrderNames.map(name => teamsData.find(team => team.name === name));
                 teamsData.splice(0, teamsData.length, ...newOrderedTeamsData); // Update teamsData in place
                 renderTeams(); // Re-render the entire list to update ranks and ensure consistency
-                // --- FIX END ---
             }
             if (dragOverItem) {
                 dragOverItem.classList.remove('drag-over');
