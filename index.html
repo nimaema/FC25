@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>رتبه‌بندی تیم‌های FC 25</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.com/css2?family=Inter:wght@300;400;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles for a professional, light UI with new color scheme */
@@ -290,33 +290,32 @@
     </div>
 
     <script>
-        // Updated teams data - Based on recent performance and general consensus of top teams
+        // Updated teams data - Based on Top_25_Football_Clubs.csv
         const teamsData = [
-            { name: "Manchester City", ovr: 88, att: 89, mid: 86, def: 88, gameplay: "Possession-based, high tempo attack", logoText: "MCI", logoColor: "6CABDD", initialTextColor: "FFFFFF" },
-            { name: "Real Madrid", ovr: 87, att: 88, mid: 87, def: 86, gameplay: "Short passing, positional play", logoText: "RMA", logoColor: "00529F", initialTextColor: "FFFFFF" },
-            { name: "Bayern Munich", ovr: 86, att: 90, mid: 87, def: 86, gameplay: "Aggressive press, wing play", logoText: "BAY", logoColor: "DC052D", initialTextColor: "FFFFFF" },
-            { name: "Arsenal", ovr: 85, att: 83, mid: 80, def: 76, gameplay: "Controlled build-up, balanced defense", logoText: "ARS", logoColor: "EF0107", initialTextColor: "FFFFFF" },
-            { name: "Liverpool", ovr: 85, att: 84, mid: 79, def: 80, gameplay: "Gegenpressing, fast transitions", logoText: "LIV", logoColor: "C8102E", initialTextColor: "FFFFFF" },
-            { name: "Paris Saint-Germain", ovr: 84, att: 86, mid: 87, def: 77, gameplay: "Star player isolation, flair", logoText: "PSG", logoColor: "004170", initialTextColor: "FFFFFF" },
-            { name: "FC Barcelona", ovr: 84, att: 89, mid: 86, def: 82, gameplay: "Tiki-taka, ball control", logoText: "BAR", logoColor: "A50044", initialTextColor: "FFFFFF" },
-            { name: "Inter Milan", ovr: 83, att: 83, mid: 80, def: 75, gameplay: "Structured defense, direct attack", logoText: "INT", logoColor: "000000", initialTextColor: "FFFFFF" }, // Explicitly white text for black background
-            { name: "Napoli", ovr: 83, att: 85, mid: 82, def: 80, gameplay: "Fluid attacking football", logoText: "NAP", logoColor: "0072C6", initialTextColor: "FFFFFF" },
-            { name: "Manchester United", ovr: 83, att: 84, mid: 85, def: 83, gameplay: "Counter attacking, high press", logoText: "MUN", logoColor: "DA291C", initialTextColor: "FFFFFF" },
-            { name: "Atlético Madrid", ovr: 82, att: 79, mid: 86, def: 82, gameplay: "Compact defense, breakaways", logoText: "ATM", logoColor: "CB3524", initialTextColor: "FFFFFF" },
-            { name: "Chelsea", ovr: 82, att: 83, mid: 83, def: 85, gameplay: "Wing backs attack, possession", logoText: "CHE", logoColor: "034694", initialTextColor: "FFFFFF" },
-            { name: "Tottenham Hotspur", ovr: 81, att: 82, mid: 80, def: 79, gameplay: "High intensity, vertical play", logoText: "TOT", logoColor: "132257", initialTextColor: "FFFFFF" },
-            { name: "AS Roma", ovr: 81, att: 87, mid: 85, def: 75, gameplay: "Wide play, aerial strength", logoText: "ROM", logoColor: "860D2C", initialTextColor: "FFFFFF" },
-            { name: "Juventus", ovr: 80, att: 78, mid: 86, def: 80, gameplay: "Defensive solidity, set-pieces", logoText: "JUV", logoColor: "000000", initialTextColor: "FFFFFF" }, // Explicitly white text for black background
-            { name: "AC Milan", ovr: 80, att: 82, mid: 88, def: 77, gameplay: "Balanced attack and midfield, strong defense", logoText: "ACM", logoColor: "FB090B", initialTextColor: "FFFFFF" },
-            { name: "RB Leipzig", ovr: 80, att: 81, mid: 77, def: 85, gameplay: "Transition focused, aggressive pressing", logoText: "RBL", logoColor: "001E44", initialTextColor: "FFFFFF" },
-            { name: "Bayer Leverkusen", ovr: 79, att: 81, mid: 84, def: 80, gameplay: "Quick counters, tight marking", logoText: "B04", logoColor: "E32221", initialTextColor: "FFFFFF" },
-            { name: "Brighton & Hove Albion", ovr: 79, att: 78, mid: 80, def: 79, gameplay: "Possession-based, intricate passing", logoText: "BHA", logoColor: "0057B8", initialTextColor: "FFFFFF" },
-            { name: "Aston Villa", ovr: 79, att: 79, mid: 78, def: 80, gameplay: "Strong defense, quick transitions", logoText: "AVL", logoColor: "95BFE5", initialTextColor: "000000" },
-            { name: "Newcastle United", ovr: 78, att: 80, mid: 78, def: 79, gameplay: "High press, direct play", logoText: "NEW", logoColor: "000000", initialTextColor: "FFFFFF" }, // Explicitly white text for black background
-            { name: "West Ham United", ovr: 78, att: 77, mid: 79, def: 78, gameplay: "Counter-attacking, set-piece threat", logoText: "WHU", logoColor: "7A263A", initialTextColor: "FFFFFF" },
-            { name: "Atalanta", ovr: 78, att: 78, mid: 79, def: 78, gameplay: "Controlled possession, strong midfield", logoText: "ATL", logoColor: "FFFFFF", initialTextColor: "000000" },
-            { name: "Real Betis", ovr: 77, att: 77, mid: 78, def: 77, gameplay: "Technical play, wide attacks", logoText: "RBB", logoColor: "00BB2D", initialTextColor: "FFFFFF" },
-            { name: "Villarreal CF", ovr: 77, att: 84, mid: 86, def: 78, gameplay: "Fluid midfield, high lines", logoText: "VIL", logoColor: "F0E040", initialTextColor: "000000" }
+            { name: "Real Madrid", ovr: 85, att: 88, mid: 85, def: 83, logoText: "RMA", logoColor: "00529F", initialTextColor: "FFFFFF" },
+            { name: "Manchester City", ovr: 85, att: 86, mid: 83, def: 79, logoText: "MCI", logoColor: "6CABDD", initialTextColor: "FFFFFF" },
+            { name: "FC Barcelona", ovr: 84, att: 85, mid: 85, def: 83, logoText: "BAR", logoColor: "A50044", initialTextColor: "FFFFFF" },
+            { name: "Inter", ovr: 84, att: 86, mid: 84, def: 83, logoText: "INT", logoColor: "000000", initialTextColor: "FFFFFF" },
+            { name: "FC Bayern München", ovr: 84, att: 90, mid: 84, def: 82, logoText: "BAY", logoColor: "DC052D", initialTextColor: "FFFFFF" },
+            { name: "Liverpool", ovr: 84, att: 83, mid: 84, def: 85, logoText: "LIV", logoColor: "C8102E", initialTextColor: "FFFFFF" },
+            { name: "Paris Saint-Germain", ovr: 83, att: 83, mid: 83, def: 84, logoText: "PSG", logoColor: "004170", initialTextColor: "FFFFFF" },
+            { name: "Bayer 04 Leverkusen", ovr: 83, att: 83, mid: 84, def: 83, logoText: "B04", logoColor: "E32221", initialTextColor: "FFFFFF" },
+            { name: "Arsenal", ovr: 83, att: 83, mid: 85, def: 81, logoText: "ARS", logoColor: "EF0107", initialTextColor: "FFFFFF" },
+            { name: "Atlético Madrid", ovr: 82, att: 84, mid: 80, def: 81, logoText: "ATM", logoColor: "CB3524", initialTextColor: "FFFFFF" },
+            { name: "AC Milan", ovr: 81, att: 81, mid: 79, def: 79, logoText: "ACM", logoColor: "FB090B", initialTextColor: "FFFFFF" },
+            { name: "Borussia Dortmund", ovr: 81, att: 82, mid: 79, def: 81, logoText: "BVB", logoColor: "FDE100", initialTextColor: "000000" },
+            { name: "Tottenham Hotspur", ovr: 81, att: 80, mid: 83, def: 81, logoText: "TOT", logoColor: "132257", initialTextColor: "FFFFFF" },
+            { name: "Newcastle United", ovr: 81, att: 81, mid: 80, def: 80, logoText: "NEW", logoColor: "000000", initialTextColor: "FFFFFF" },
+            { name: "Aston Villa", ovr: 81, att: 84, mid: 80, def: 80, logoText: "AVL", logoColor: "95BFE5", initialTextColor: "000000" },
+            { name: "RB Leipzig", ovr: 80, att: 82, mid: 79, def: 80, logoText: "RBL", logoColor: "001E44", initialTextColor: "FFFFFF" },
+            { name: "Athletic Club", ovr: 80, att: 75, mid: 80, def: 80, logoText: "ATH", logoColor: "BB0000", initialTextColor: "FFFFFF" },
+            { name: "Fenerbahçe SK", ovr: 80, att: 81, mid: 79, def: 79, logoText: "FEN", logoColor: "004080", initialTextColor: "FFFFFF" },
+            { name: "Juventus", ovr: 80, att: 82, mid: 80, def: 78, logoText: "JUV", logoColor: "000000", initialTextColor: "FFFFFF" },
+            { name: "Manchester United", ovr: 80, att: 77, mid: 76, def: 80, logoText: "MUN", logoColor: "DA291C", initialTextColor: "FFFFFF" },
+            { name: "Atalanta", ovr: 79, att: 80, mid: 80, def: 78, logoText: "ATA", logoColor: "000080", initialTextColor: "FFFFFF" },
+            { name: "Lazio", ovr: 79, att: 80, mid: 79, def: 78, logoText: "LAZ", logoColor: "73C2FB", initialTextColor: "000000" },
+            { name: "Napoli", ovr: 79, att: 80, mid: 79, def: 80, logoText: "NAP", logoColor: "0072C6", initialTextColor: "FFFFFF" },
+            { name: "Roma", ovr: 79, att: 78, mid: 78, def: 80, logoText: "ROM", logoColor: "860D2C", initialTextColor: "FFFFFF" }
         ];
 
         const teamList = document.getElementById('team-list');
@@ -504,11 +503,7 @@
             const formData = new FormData();
             formData.append('userName', userName);
             formData.append('teams', JSON.stringify(orderedTeams));
-          	
-          	 // --- این خط را اضافه کنید ---
-        		console.log('Attempting to fetch with URL:', scriptURL, 'and formData:', Array.from(formData.entries()));
-       		 // -----------------------------
-	
+
             try {
                 const response = await fetch(scriptURL, {
                     method: 'POST',
@@ -552,8 +547,5 @@
             }
         }
     </script>
-
-
-<script src="https://static.app/js/static.js" type="text/javascript"></script>
 </body>
 </html>
